@@ -1,2 +1,4 @@
-.vscode/
-.target/
+/.vscode/
+/target/
+/src/main/resources/application.properties
+
