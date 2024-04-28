@@ -44,7 +44,7 @@ application.properties
 src/main/java/com/handmade/atelie/backend/Application.java
 ```
 
-## Feito isso, o projeto estará pronto para ser executado.
+Feito isso, o projeto estará pronto para ser executado.
 
 
 
