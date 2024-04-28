@@ -12,10 +12,10 @@ Para executar o projeto, siga estas configurações:
 1- Navegue até o seguinte diretório no repositório:
 
 ```shell
-src/main/resources/
+src/main/
 ```
 
-2- Dentro deste diretório, crie um arquivo com o seguinte nome e extensão:
+2- Dentro deste diretório, crie uma pasta chamada 'resources', e em seguida, crie um arquivo com o seguinte nome e extensão:
 
 ```shell
 application.properties
