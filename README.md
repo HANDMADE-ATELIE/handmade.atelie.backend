@@ -38,13 +38,13 @@ application.properties
 
 4- Modifique o arquivo acima com as seguintes configurações do seu MySQL: endereco_do_seu_mysql, porta_do_seu_mysql, seu_usuario, sua_senha.
 
-5- Vá até o arquivo com o caminho:
+Feito isso, o projeto estará pronto para ser executado. Para executa-lo, você deve ir até o seguinte arquivo:
 
 ```shell
 src/main/java/com/handmade/atelie/backend/Application.java
 ```
 
-Feito isso, o projeto estará pronto para ser executado.
+em seguida clique em 'run'.
 
 
 
