@@ -28,6 +28,7 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
     private TokenService tokenService;
 
     @PostMapping("/login")
