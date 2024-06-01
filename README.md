@@ -34,6 +34,8 @@ application.properties
   spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
   spring.jpa.hibernate.ddl-auto=update
   spring.jpa.show-sql=true
+
+  atelie.security.secret=handmade.atelie
   ```
 
 4- Modifique o arquivo acima com as seguintes configurações do seu MySQL: endereco_do_seu_mysql, porta_do_seu_mysql, seu_usuario, sua_senha.
