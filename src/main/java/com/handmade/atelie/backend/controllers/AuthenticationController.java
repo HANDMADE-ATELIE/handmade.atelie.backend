@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.handmade.atelie.backend.infra.security.TokenService;
 import com.handmade.atelie.backend.models.auth.AuthenticationDTO;
 import com.handmade.atelie.backend.models.auth.LoginResponseDTO;
-import com.handmade.atelie.backend.models.auth.RegisterDTO;
+import com.handmade.atelie.backend.models.user.Address;
 import com.handmade.atelie.backend.models.user.User;
+import com.handmade.atelie.backend.models.user.UserDTO;
 import com.handmade.atelie.backend.repositories.UserRepository;
 
 @RestController
@@ -42,12 +43,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterDTO> register(@Validated @RequestBody RegisterDTO data) {
+    public ResponseEntity<UserDTO> register(@Validated @RequestBody UserDTO data) {
         if(this.repository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().build();
 
+        Address address = new Address(data.address().zipCode(), data.address().state(), data.address().street(), data.address().number(), data.address().neighborhood(), data.address().city(), data.address().complement());
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.name(), data.email(), encryptedPassword, data.role());
+        
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role(), data.phone(), address);
 
         this.repository.save(newUser);
 

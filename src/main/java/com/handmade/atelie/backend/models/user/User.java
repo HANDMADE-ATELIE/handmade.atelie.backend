@@ -1,16 +1,23 @@
 package com.handmade.atelie.backend.models.user;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,16 +37,38 @@ public class User implements UserDetails {
     private String id;
 
     @Getter @Setter
+    @Column(nullable = false, length = 100)
     private String name;
 
     @Getter @Setter
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Column(nullable = false)
+    private Date dateOfBirth;
+
+    @Getter @Setter
+    @Column(nullable = false, unique = true, length = 12)
+    private String cpf;
+
+    @Getter @Setter
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @Getter @Setter
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Getter @Setter
-    private UserRole role;
+    @Column(nullable = false)
+    private UserRole role = UserRole.USER;
+
+    @Getter @Setter
+    @Column(nullable = false, length = 12)
+    private String phone;
+
+    @Getter @Setter
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_address_id", referencedColumnName = "id")
+    private Address address;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,11 +78,15 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public User(String name, String email, String password, UserRole role) {
+    public User(String name, Date dateOfBirth, String cpf, String email, String password, UserRole role, String phone, Address address) {
         this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.cpf = cpf;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.phone = phone;
+        this.address = address;
     }
 
     @Override
@@ -80,5 +113,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 }
