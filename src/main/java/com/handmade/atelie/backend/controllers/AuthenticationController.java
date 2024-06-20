@@ -1,5 +1,8 @@
 package com.handmade.atelie.backend.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +18,7 @@ import com.handmade.atelie.backend.infra.security.TokenService;
 import com.handmade.atelie.backend.models.auth.AuthenticationDTO;
 import com.handmade.atelie.backend.models.auth.LoginResponseDTO;
 import com.handmade.atelie.backend.models.user.Address;
+import com.handmade.atelie.backend.models.user.PhoneNumber;
 import com.handmade.atelie.backend.models.user.User;
 import com.handmade.atelie.backend.models.user.UserDTO;
 import com.handmade.atelie.backend.repositories.UserRepository;
@@ -42,15 +46,33 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
+    // todo - validade cpf, validate numberPhone, cep, email, role, state
+    // criar service e tbm separar o register em um controller próprio para o crud de usuários
+
     @PostMapping("/register")
     public ResponseEntity<UserDTO> register(@Validated @RequestBody UserDTO data) {
         if(this.repository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().build();
 
-        Address address = new Address(data.address().zipCode(), data.address().state(), data.address().street(), data.address().number(), data.address().neighborhood(), data.address().city(), data.address().complement());
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role());
+
+        List<Address> addresses = new ArrayList<>();
+        data.addresses().forEach(address -> {
+            Address newAddress = new Address(address.zipCode(), address.state(), address.street(), address.number(), address.neighborhood(), address.city(), address.complement(), newUser);
+            addresses.add(newAddress);
+        });
+
+        newUser.setAddresses(addresses);
+
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        data.phoneNumbers().forEach(phone -> {
+            PhoneNumber newPhone = new PhoneNumber(phone.phoneNumber(), newUser);
+            phoneNumbers.add(newPhone);
+        });
+
+        newUser.setPhoneNumbers(phoneNumbers);
         
-        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role(), data.phone(), address);
 
         this.repository.save(newUser);
 

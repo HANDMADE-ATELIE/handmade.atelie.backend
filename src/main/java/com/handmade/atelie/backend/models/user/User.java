@@ -1,5 +1,6 @@
 package com.handmade.atelie.backend.models.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +17,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -62,13 +62,12 @@ public class User implements UserDetails {
     private UserRole role = UserRole.USER;
 
     @Getter @Setter
-    @Column(nullable = false, length = 12)
-    private String phone;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PhoneNumber> phoneNumbers;
 
     @Getter @Setter
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "FK_address_id", referencedColumnName = "id")
-    private Address address;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -78,15 +77,13 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public User(String name, Date dateOfBirth, String cpf, String email, String password, UserRole role, String phone, Address address) {
+    public User(String name, Date dateOfBirth, String cpf, String email, String password, UserRole role) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.cpf = cpf;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.phone = phone;
-        this.address = address;
     }
 
     @Override
