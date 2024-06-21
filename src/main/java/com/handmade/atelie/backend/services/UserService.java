@@ -44,6 +44,9 @@ public class UserService {
         newUser.setPhoneNumbers(phoneNumbers);
 
         this.userRepository.save(newUser);
+
+         // todo - validade cpf, validate numberPhone, cep, email, role, state
+        // criar service e tbm separar o register em um controller próprio para o crud de usuários
         
     }
 
