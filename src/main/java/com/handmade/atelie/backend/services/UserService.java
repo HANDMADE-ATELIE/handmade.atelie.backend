@@ -27,7 +27,7 @@ public class UserService {
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
 
-        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role());
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role(), data.gender());
 
         List<Address> addresses = new ArrayList<>();
         data.addresses().forEach(address -> {
