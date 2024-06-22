@@ -28,8 +28,9 @@ public class Address {
     private String zipCode;
 
     @Getter @Setter
-    @Column(nullable = false, length = 3)
-    private String state;
+    @ManyToOne
+    @JoinColumn(name = "state_id", nullable = false)
+    private State state;
 
     @Getter @Setter
     @Column(nullable = false, length = 100)
@@ -56,7 +57,7 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Address(String zipCode, String state, String street, String number, String neighborhood, String city, String complement, User user) {
+    public Address(String zipCode, State state, String street, String number, String neighborhood, String city, String complement, User user) {
         this.zipCode = zipCode;
         this.state = state;
         this.street = street;
