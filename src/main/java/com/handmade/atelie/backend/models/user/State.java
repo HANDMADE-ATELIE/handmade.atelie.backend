@@ -17,9 +17,9 @@ import lombok.Setter;
 @Table(name = "states")
 public class State {
 
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
-    @Getter
-    private String id;
+    @Id
+    @Getter @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Getter @Setter
     @Column(nullable = false, length = 100)

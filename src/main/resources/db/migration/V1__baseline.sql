@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS `handmade_atelie`;
 USE `handmade_atelie`;
 
 CREATE TABLE IF NOT EXISTS `states` (
-  `id` varchar(255) NOT NULL,
+  `id` INT NOT NULL,
   `acronym` varchar(2) NOT NULL,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
@@ -31,22 +31,22 @@ CREATE TABLE IF NOT EXISTS `adresses` (
   `number` varchar(20) NOT NULL,
   `street` varchar(100) NOT NULL,
   `zip_code` varchar(9) NOT NULL,
-  `state_id` varchar(255) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
+  `FK_state_id` INT NOT NULL,
+  `FK_user_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK1434c41yqt8u7uq21uyn886yg` (`state_id`),
-  KEY `FKreji6chbe6yr2pdg1uuvlq5it` (`user_id`),
-  CONSTRAINT `FK1434c41yqt8u7uq21uyn886yg` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`),
-  CONSTRAINT `FKreji6chbe6yr2pdg1uuvlq5it` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `FK1434c41yqt8u7uq21uyn886yg` (`FK_state_id`),
+  KEY `FKreji6chbe6yr2pdg1uuvlq5it` (`FK_user_id`),
+  CONSTRAINT `FK1434c41yqt8u7uq21uyn886yg` FOREIGN KEY (`FK_state_id`) REFERENCES `states` (`id`),
+  CONSTRAINT `FKreji6chbe6yr2pdg1uuvlq5it` FOREIGN KEY (`FK_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `phone_numbers` (
   `id` varchar(255) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
+  `FK_user_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKg077extnnxwv904qjw2kwinpg` (`user_id`),
-  CONSTRAINT `FKg077extnnxwv904qjw2kwinpg` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `FKg077extnnxwv904qjw2kwinpg` (`FK_user_id`),
+  CONSTRAINT `FKg077extnnxwv904qjw2kwinpg` FOREIGN KEY (`FK_user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO states (id, name, acronym) VALUES 

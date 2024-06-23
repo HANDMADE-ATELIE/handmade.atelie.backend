@@ -31,7 +31,7 @@ public class PhoneNumber {
 
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "FK_user_id", nullable = false)
     private User user;
 
     public PhoneNumber(String phoneNumber, User user) {

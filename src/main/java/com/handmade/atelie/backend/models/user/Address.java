@@ -29,7 +29,7 @@ public class Address {
 
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "state_id", nullable = false)
+    @JoinColumn(name = "FK_state_id", nullable = false)
     private State state;
 
     @Getter @Setter
@@ -54,7 +54,7 @@ public class Address {
 
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "FK_user_id", nullable = false)
     private User user;
 
     public Address(String zipCode, State state, String street, String number, String neighborhood, String city, String complement, User user) {
