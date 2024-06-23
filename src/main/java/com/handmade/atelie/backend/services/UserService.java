@@ -11,8 +11,10 @@ import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
+import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
+import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
 import com.handmade.atelie.backend.helpers.HelperMethods;
 import com.handmade.atelie.backend.models.user.Address;
 import com.handmade.atelie.backend.models.user.PhoneNumber;
@@ -34,31 +36,44 @@ public class UserService {
 
     private void validateUserData(UserDTO data) {
 
-        if(this.userRepository.findByEmail(data.email()) != null)
-            throw new EmailAlreadyExistsException();
+        if(HelperMethods.isValidEmail(data.email())) {
+            if(this.userRepository.findByEmail(data.email()) != null)
+                throw new EmailAlreadyExistsException();
 
-        if(HelperMethods.isNotNumbersChars(data.cpf())) {
+        } else {
+            throw new InvalidEmailFormatException();
+
+        }
+
+
+        if(HelperMethods.isNotHaveNumbersChars(data.cpf())) {
             throw new InvalidCpfCharException();
 
         } else {
             if(HelperMethods.isValidCPF(data.cpf())) {
                 if(this.userRepository.findByCpf(data.cpf()) != null)
                     throw new CPFAlreadyExistsException();
-                    
+
             } else {
                 throw new InvalidCpfException();
+
             }
         }
+
 
         if(data.role() != UserRole.ADMIN && data.role() != UserRole.USER)
             throw new InvalidRoleException();
 
+
         data.addresses().forEach(address -> {
             if(this.stateRepository.findByAcronym(address.stateAcronym()) == null)
                 throw new InvalidStateException();
+
+            if(HelperMethods.isNotHaveNumbersChars(address.zipCode()) || address.zipCode().length() != 8)
+                throw new InvalidZipCodeException();
         });
         
-            // todo - validate numberPhone, cep, email, role, state
+            // todo - validate numberPhone
         // verificar poque a data está sendo salva 1 dia antes
     }
 

@@ -36,8 +36,12 @@ public class HelperMethods {
         return result == numbers[10];
     }
 
-    public static Boolean isNotNumbersChars(String str) {
+    public static Boolean isNotHaveNumbersChars(String str) {
         return !str.matches("[0-9]+");
+    }
+
+    public static Boolean isValidEmail(String email) {
+        return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
 
     

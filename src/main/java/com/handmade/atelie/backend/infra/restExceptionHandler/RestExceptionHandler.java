@@ -11,9 +11,13 @@ import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
+import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
+import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
 import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
+
+import io.micrometer.core.ipc.http.HttpSender.Response;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -55,6 +59,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidCpfCharException.class)
     private ResponseEntity<RestErrorMessage> invalidCpfCharHandler(InvalidCpfCharException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidEmailFormatException.class)
+    private ResponseEntity<RestErrorMessage> invalidEmailFormatHandler(InvalidEmailFormatException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidZipCodeException.class)
+    private ResponseEntity<RestErrorMessage> invalidZipCodeHandler(InvalidZipCodeException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
 
