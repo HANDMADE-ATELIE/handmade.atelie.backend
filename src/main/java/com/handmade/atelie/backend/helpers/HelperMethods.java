@@ -2,10 +2,6 @@ package com.handmade.atelie.backend.helpers;
 
 public class HelperMethods {
 
-    public static String removeNotNumbers(String str) {
-        return str.replaceAll("[^0-9]", "");
-    }
-    
     public static Boolean isValidCPF(String cpf) {
         if (cpf == null || cpf.length() != 11 || cpf.matches(cpf.charAt(0) + "{11}"))
             return false;
@@ -38,6 +34,10 @@ public class HelperMethods {
             result = 11 - result;
 
         return result == numbers[10];
+    }
+
+    public static Boolean isNotNumbersChars(String str) {
+        return !str.matches("[0-9]+");
     }
 
     

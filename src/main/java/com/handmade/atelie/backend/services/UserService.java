@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
@@ -31,20 +32,24 @@ public class UserService {
     @Autowired
     StateRepository stateRepository;
 
-    private void validateUserData(UserDTO data, String formatedCpf) {
+    private void validateUserData(UserDTO data) {
 
         if(this.userRepository.findByEmail(data.email()) != null)
             throw new EmailAlreadyExistsException();
 
-        if(HelperMethods.isValidCPF(formatedCpf)) {
-
-            if(this.userRepository.findByCpf(formatedCpf) != null)
-                throw new CPFAlreadyExistsException();
+        if(HelperMethods.isNotNumbersChars(data.cpf())) {
+            throw new InvalidCpfCharException();
 
         } else {
-            throw new InvalidCpfException();
+            if(HelperMethods.isValidCPF(data.cpf())) {
+                if(this.userRepository.findByCpf(data.cpf()) != null)
+                    throw new CPFAlreadyExistsException();
+                    
+            } else {
+                throw new InvalidCpfException();
+            }
         }
-            
+
         if(data.role() != UserRole.ADMIN && data.role() != UserRole.USER)
             throw new InvalidRoleException();
 
@@ -59,11 +64,10 @@ public class UserService {
 
     public void registerUser(UserDTO data) {
 
-        String formatedCpf = HelperMethods.removeNotNumbers(data.cpf());
-        this.validateUserData(data, formatedCpf);
+        this.validateUserData(data);
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.name(), data.dateOfBirth(), formatedCpf, data.email(), encryptedPassword, data.role(), data.gender());
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role(), data.gender());
 
         List<Address> addresses = new ArrayList<>();
         data.addresses().forEach(address -> {
