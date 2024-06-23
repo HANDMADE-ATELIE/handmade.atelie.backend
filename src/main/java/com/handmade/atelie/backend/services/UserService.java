@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.handmade.atelie.backend.helpers.CustomException;
+import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.InvalidRoleException;
+import com.handmade.atelie.backend.exceptions.InvalidStateException;
 import com.handmade.atelie.backend.models.user.Address;
 import com.handmade.atelie.backend.models.user.PhoneNumber;
 import com.handmade.atelie.backend.models.user.State;
@@ -29,17 +32,17 @@ public class UserService {
     private void validateUserData(UserDTO data) {
 
         if(this.userRepository.findByEmail(data.email()) != null)
-            throw new CustomException("Email already exists");
+            throw new EmailAlreadyExistsException();
 
         if(this.userRepository.findByCpf(data.cpf()) != null)
-            throw new CustomException("CPF already exists");
+            throw new CPFAlreadyExistsException();
 
         if(data.role() != UserRole.ADMIN && data.role() != UserRole.USER)
-            throw new CustomException("Invalid role");
+            throw new InvalidRoleException();
 
         data.addresses().forEach(address -> {
             if(this.stateRepository.findByAcronym(address.stateAcronym()) == null)
-                throw new CustomException("Invalid state");
+                throw new InvalidStateException();
         });
         
             // todo - validade cpf, validate numberPhone, cep, email, role, state

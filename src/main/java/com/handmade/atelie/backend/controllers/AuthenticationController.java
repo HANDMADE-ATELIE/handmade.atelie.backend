@@ -5,13 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.handmade.atelie.backend.helpers.CustomException;
+import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
 import com.handmade.atelie.backend.infra.security.TokenService;
 import com.handmade.atelie.backend.models.auth.AuthenticationDTO;
 import com.handmade.atelie.backend.models.auth.LoginResponseDTO;
@@ -39,13 +38,8 @@ public class AuthenticationController {
             return ResponseEntity.ok(new LoginResponseDTO(token));
 
         } catch (Exception e) {
-            throw new CustomException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
-    }
-
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<String> handleCustomException(CustomException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }
