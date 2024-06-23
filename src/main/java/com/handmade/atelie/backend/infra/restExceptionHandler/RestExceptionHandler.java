@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
@@ -43,6 +44,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(JWTCreationErrorException.class)
     private ResponseEntity<RestErrorMessage> JWTCreationErrorHandler(JWTCreationErrorException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCpfException.class)
+    private ResponseEntity<RestErrorMessage> invalidCpfHandler(InvalidCpfException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
 
