@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
 import com.handmade.atelie.backend.models.user.User;
 
 @Service
@@ -27,7 +28,7 @@ public class TokenService {
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error while creating token", exception);
+            throw new JWTCreationErrorException();
         }
     }
 

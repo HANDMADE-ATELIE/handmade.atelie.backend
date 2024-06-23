@@ -11,6 +11,7 @@ import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
+import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -37,6 +38,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidStateException.class)
     private ResponseEntity<RestErrorMessage> invalidStateHandler(InvalidStateException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
+    @ExceptionHandler(JWTCreationErrorException.class)
+    private ResponseEntity<RestErrorMessage> JWTCreationErrorHandler(JWTCreationErrorException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
 
