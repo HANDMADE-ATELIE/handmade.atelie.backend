@@ -79,10 +79,9 @@ public class UserService {
         data.phoneNumbers().forEach(phone -> {
             if(!HelperMethods.isValidPhoneNumber(phone.phoneNumber()))
                 throw new InvalidPhoneNumberException();
-                
+
         });
         
-        // verificar poque a data está sendo salva 1 dia antes
     }
 
     public void registerUser(UserDTO data) {
