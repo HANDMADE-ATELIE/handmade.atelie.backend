@@ -1,6 +1,7 @@
 package com.handmade.atelie.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,8 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Validated @RequestBody UserDTO data) {
         this.userService.registerUser(data);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
