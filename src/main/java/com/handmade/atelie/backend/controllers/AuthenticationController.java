@@ -19,7 +19,7 @@ import com.handmade.atelie.backend.models.user.User;
 
 @RestController
 @RequestMapping("auth")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthenticationController {
 
     @Autowired

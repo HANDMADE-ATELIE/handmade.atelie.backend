@@ -15,7 +15,7 @@ import com.handmade.atelie.backend.services.UserService;
 
 @RestController
 @RequestMapping("user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     @Autowired
