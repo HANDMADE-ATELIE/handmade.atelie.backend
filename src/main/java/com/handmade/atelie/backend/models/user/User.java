@@ -62,8 +62,8 @@ public class User implements UserDetails {
     private UserRole role = UserRole.USER;
 
     @Getter @Setter
-    @Column(nullable = false, length = 30)
-    private String gender;
+    @Column(nullable = false)
+    private Gender gender;
 
     @Getter @Setter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -81,7 +81,7 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public User(String name, Date dateOfBirth, String cpf, String email, String password, UserRole role, String gender) {
+    public User(String name, Date dateOfBirth, String cpf, String email, String password, UserRole role, Gender gender) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.cpf = cpf;

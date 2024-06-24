@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `cpf` varchar(12) NOT NULL,
   `date_of_birth` datetime(6) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `gender` varchar(30) NOT NULL,
+  `gender` TINYINT NOT NULL,
   `name` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `role` tinyint NOT NULL,
