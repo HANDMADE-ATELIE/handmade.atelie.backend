@@ -34,17 +34,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CPFAlreadyExistsException.class)
     private ResponseEntity<RestErrorMessage> cpfAlreadyExistsHandler(CPFAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidRoleException.class)
     private ResponseEntity<RestErrorMessage> invalidRoleHandler(InvalidRoleException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidStateException.class)
     private ResponseEntity<RestErrorMessage> invalidStateHandler(InvalidStateException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(JWTCreationErrorException.class)
@@ -54,32 +54,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidCpfException.class)
     private ResponseEntity<RestErrorMessage> invalidCpfHandler(InvalidCpfException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidCpfCharException.class)
     private ResponseEntity<RestErrorMessage> invalidCpfCharHandler(InvalidCpfCharException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidEmailFormatException.class)
     private ResponseEntity<RestErrorMessage> invalidEmailFormatHandler(InvalidEmailFormatException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidZipCodeException.class)
     private ResponseEntity<RestErrorMessage> invalidZipCodeHandler(InvalidZipCodeException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(InvalidPhoneNumberException.class)
     private ResponseEntity<RestErrorMessage> invalidPhoneNumberHandler(InvalidPhoneNumberException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     private ResponseEntity<RestErrorMessage> defaultHandler(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
-    
+
 }
