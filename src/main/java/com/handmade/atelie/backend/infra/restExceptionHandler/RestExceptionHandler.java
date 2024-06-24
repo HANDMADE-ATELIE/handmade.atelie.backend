@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.InvalidAgeException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
@@ -74,6 +75,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidPhoneNumberException.class)
     private ResponseEntity<RestErrorMessage> invalidPhoneNumberHandler(InvalidPhoneNumberException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidAgeException.class)
+    private ResponseEntity<RestErrorMessage> invalidAgeHandler(InvalidAgeException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.InvalidAgeException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
@@ -81,6 +82,9 @@ public class UserService {
                 throw new InvalidPhoneNumberException();
 
         });
+
+        if(!HelperMethods.isAgeOverEighteen(data.dateOfBirth()))
+            throw new InvalidAgeException();
         
     }
 

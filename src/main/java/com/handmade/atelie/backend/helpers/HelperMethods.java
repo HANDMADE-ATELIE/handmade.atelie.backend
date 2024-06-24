@@ -1,5 +1,7 @@
 package com.handmade.atelie.backend.helpers;
 
+import java.util.Date;
+
 public class HelperMethods {
 
     public static Boolean isValidCPF(String cpf) {
@@ -46,6 +48,14 @@ public class HelperMethods {
 
     public static Boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("[0-9]{10,11}");
+    }
+
+    public static Boolean isAgeOverEighteen(Date birthDate) {
+        Date now = new Date();
+        long diff = now.getTime() - birthDate.getTime();
+        long age = diff / 31556952000L;
+        
+        return age >= 18;
     }
 
 }
