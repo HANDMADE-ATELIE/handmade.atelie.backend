@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `states` (
 CREATE TABLE IF NOT EXISTS `users` (
   `id` varchar(255) NOT NULL,
   `cpf` varchar(12) NOT NULL,
-  `date_of_birth` datetime(6) NOT NULL,
+  `date_of_birth` DATE NOT NULL,
   `email` varchar(100) NOT NULL,
   `gender` TINYINT NOT NULL,
   `name` varchar(100) NOT NULL,
