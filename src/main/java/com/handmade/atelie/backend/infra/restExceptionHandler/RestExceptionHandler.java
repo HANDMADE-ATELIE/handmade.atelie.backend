@@ -12,12 +12,12 @@ import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
 import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
+import com.handmade.atelie.backend.exceptions.InvalidPhoneNumberException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
 import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
 import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -69,6 +69,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidZipCodeException.class)
     private ResponseEntity<RestErrorMessage> invalidZipCodeHandler(InvalidZipCodeException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidPhoneNumberException.class)
+    private ResponseEntity<RestErrorMessage> invalidPhoneNumberHandler(InvalidPhoneNumberException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
 

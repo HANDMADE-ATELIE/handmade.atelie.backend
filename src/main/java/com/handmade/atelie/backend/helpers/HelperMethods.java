@@ -44,5 +44,8 @@ public class HelperMethods {
         return email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
 
-    
+    public static Boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.matches("[0-9]{10,11}");
+    }
+
 }

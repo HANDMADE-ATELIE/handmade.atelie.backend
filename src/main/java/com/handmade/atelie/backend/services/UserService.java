@@ -12,6 +12,7 @@ import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
+import com.handmade.atelie.backend.exceptions.InvalidPhoneNumberException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
 import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
@@ -73,7 +74,12 @@ public class UserService {
                 throw new InvalidZipCodeException();
         });
         
-            // todo - validate numberPhone
+
+        data.phoneNumbers().forEach(phone -> {
+            if(!HelperMethods.isValidPhoneNumber(phone.phoneNumber()))
+                throw new InvalidPhoneNumberException();
+        });
+        
         // verificar poque a data está sendo salva 1 dia antes
     }
 
