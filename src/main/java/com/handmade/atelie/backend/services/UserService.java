@@ -33,6 +33,7 @@ public class UserService {
     @Autowired
     StateRepository stateRepository;
 
+    
     private void validateUserData(UserDTO data) {
 
         if(HelperMethods.isValidEmail(data.email())) {
@@ -72,6 +73,7 @@ public class UserService {
         
     }
 
+
     public UserDTOWithoutPassword registerCustomerUser(UserDTO data) {
 
         this.validateUserData(data);
@@ -98,6 +100,7 @@ public class UserService {
         return new UserDTOWithoutPassword(newUser.getId() ,newUser.getName(), newUser.getDateOfBirth(), newUser.getCpf(), newUser.getEmail(), newUser.getRole(), phoneNumbersDTO);    
     }
 
+
     public UserDTOWithoutPassword registerAdminUser(UserDTO data) {
 
         this.validateUserData(data);
@@ -123,5 +126,6 @@ public class UserService {
 
         return new UserDTOWithoutPassword(newUser.getId() ,newUser.getName(), newUser.getDateOfBirth(), newUser.getCpf(), newUser.getEmail(), newUser.getRole(), phoneNumbersDTO);    
     }
+
 
 }
