@@ -77,7 +77,7 @@ public class UserService {
         this.validateUserData(data);
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, data.role());
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, UserRole.CUSTOMER);
 
         List<PhoneNumber> phoneNumbers = new ArrayList<>();
         data.phoneNumbers().forEach(phone -> {
@@ -87,7 +87,6 @@ public class UserService {
 
         });
         newUser.setPhoneNumbers(phoneNumbers);
-        newUser.setRole(UserRole.CUSTOMER);
 
         this.userRepository.save(newUser);
 
