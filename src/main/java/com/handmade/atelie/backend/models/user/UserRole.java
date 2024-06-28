@@ -2,7 +2,7 @@ package com.handmade.atelie.backend.models.user;
 
 public enum UserRole {
     ADMIN("admin"),
-    USER("user");
+    CUSTOMER("customer");
 
     private String role;
     

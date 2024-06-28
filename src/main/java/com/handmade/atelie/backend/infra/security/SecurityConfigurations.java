@@ -29,7 +29,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                     //Adicionar autorizações de acesso a endpoints aqui!
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/user/registerCustomerUser").permitAll()
                     .anyRequest().authenticated()
 
                 )

@@ -11,21 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.handmade.atelie.backend.models.user.UserDTO;
+import com.handmade.atelie.backend.models.user.UserDTOWithoutPassword;
 import com.handmade.atelie.backend.services.UserService;
 
 @RestController
 @RequestMapping("user")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@Validated @RequestBody UserDTO data) {
-        this.userService.registerUser(data);
+    @PostMapping("/registerCustomerUser")
+    public ResponseEntity<UserDTOWithoutPassword> registerCustomerUser(@Validated @RequestBody UserDTO data) {
+        UserDTOWithoutPassword result = this.userService.registerCustomerUser(data);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
 }
