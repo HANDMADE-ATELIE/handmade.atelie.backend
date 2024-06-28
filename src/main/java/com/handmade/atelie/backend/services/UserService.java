@@ -33,7 +33,7 @@ public class UserService {
     @Autowired
     StateRepository stateRepository;
 
-    
+
     private void validateUserData(UserDTO data) {
 
         if(HelperMethods.isValidEmail(data.email())) {
@@ -70,7 +70,6 @@ public class UserService {
 
         if(!HelperMethods.isAgeOverEighteen(data.dateOfBirth()))
             throw new InvalidAgeException();
-        
     }
 
 
