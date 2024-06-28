@@ -30,6 +30,7 @@ public class SecurityConfigurations {
                     //Adicionar autorizações de acesso a endpoints aqui!
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/registerCustomerUser").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/user/registerAdminUser").permitAll()
                     .anyRequest().authenticated()
 
                 )

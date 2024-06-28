@@ -17,5 +17,4 @@ public record UserDTOWithoutPassword(String id, String name, @JsonFormat(shape =
         this.phoneNumbers = phoneNumbers;
     }
            
-
 }

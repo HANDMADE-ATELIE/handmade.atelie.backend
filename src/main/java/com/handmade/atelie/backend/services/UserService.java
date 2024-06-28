@@ -98,4 +98,30 @@ public class UserService {
         return new UserDTOWithoutPassword(newUser.getId() ,newUser.getName(), newUser.getDateOfBirth(), newUser.getCpf(), newUser.getEmail(), newUser.getRole(), phoneNumbersDTO);    
     }
 
+    public UserDTOWithoutPassword registerAdminUser(UserDTO data) {
+
+        this.validateUserData(data);
+        
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+        User newUser = new User(data.name(), data.dateOfBirth(), data.cpf(), data.email(), encryptedPassword, UserRole.ADMIN);
+
+        List<PhoneNumber> phoneNumbers = new ArrayList<>();
+        data.phoneNumbers().forEach(phone -> {
+
+            PhoneNumber newPhone = new PhoneNumber(phone.phoneNumber(), newUser);
+            phoneNumbers.add(newPhone);
+
+        });
+        newUser.setPhoneNumbers(phoneNumbers);
+
+        this.userRepository.save(newUser);
+
+        List<PhoneNumberDTO> phoneNumbersDTO = new ArrayList<>();
+        newUser.getPhoneNumbers().forEach(phone -> {
+            phoneNumbersDTO.add(new PhoneNumberDTO(phone.getId(), phone.getPhoneNumber()));
+        });
+
+        return new UserDTOWithoutPassword(newUser.getId() ,newUser.getName(), newUser.getDateOfBirth(), newUser.getCpf(), newUser.getEmail(), newUser.getRole(), phoneNumbersDTO);    
+    }
+
 }

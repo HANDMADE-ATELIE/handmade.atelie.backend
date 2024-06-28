@@ -29,4 +29,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+    @PostMapping("/registerAdminUser")
+    public ResponseEntity<UserDTOWithoutPassword> registerAdminUser(@Validated @RequestBody UserDTO data) {
+        UserDTOWithoutPassword result = this.userService.registerAdminUser(data);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
 }
