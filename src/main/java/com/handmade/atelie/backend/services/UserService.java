@@ -201,4 +201,17 @@ public class UserService {
     }
 
 
+    public UserDTOWithoutPassword getUserById(String id) {
+
+        User user = this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIDException(id));
+
+        List<PhoneNumberDTO> phoneNumbersDTO = new ArrayList<>();
+        user.getPhoneNumbers().forEach(phone -> {
+            phoneNumbersDTO.add(new PhoneNumberDTO(phone.getId(), phone.getPhoneNumber()));
+        });
+
+        return new UserDTOWithoutPassword(user.getId(), user.getName(), user.getDateOfBirth(), user.getCpf(), user.getEmail(), user.getRole(), phoneNumbersDTO);    
+    }
+
+
 }

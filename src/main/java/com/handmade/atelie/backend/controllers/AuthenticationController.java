@@ -47,7 +47,7 @@ public class AuthenticationController {
 
             try {
                 User user = this.userRepository.findUserByEmail(data.email());
-                response = new UserLoginResponseDTO(user.getId(), user.getName(), user.getDateOfBirth(), user.getCpf() , user.getEmail());
+                response = new UserLoginResponseDTO(user.getId());
 
             } catch (UserNotFoundByEmailException e) {
                 throw new UserNotFoundByEmailException(data.email());
