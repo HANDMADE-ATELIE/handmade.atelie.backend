@@ -190,4 +190,15 @@ public class UserService {
     }
 
 
+    public void deleteUserById(String id) {
+
+        User user = this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundByIDException(id));
+
+        if(user == null)
+            throw new UserNotFoundByIDException(id);
+
+        this.userRepository.delete(user);
+    }
+
+
 }
