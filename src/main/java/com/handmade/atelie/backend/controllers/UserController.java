@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.handmade.atelie.backend.models.user.UserDTO;
 import com.handmade.atelie.backend.models.user.UserDTOWithoutPassword;
 import com.handmade.atelie.backend.services.UserService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("user")
@@ -29,11 +32,20 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+
     @PostMapping("/registerAdminUser")
     public ResponseEntity<UserDTOWithoutPassword> registerAdminUser(@Validated @RequestBody UserDTO data) {
         UserDTOWithoutPassword result = this.userService.registerAdminUser(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    
+    @PutMapping("/updateUser/{id}")
+    public ResponseEntity<UserDTOWithoutPassword> putMethodName(@PathVariable String id, @RequestBody UserDTO data) {
+        UserDTOWithoutPassword result = this.userService.updateUserById(id, data);
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }

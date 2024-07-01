@@ -13,11 +13,13 @@ import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfException;
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
 import com.handmade.atelie.backend.exceptions.InvalidEmailFormatException;
+import com.handmade.atelie.backend.exceptions.InvalidPasswordException;
 import com.handmade.atelie.backend.exceptions.InvalidPhoneNumberException;
 import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
 import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
 import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
+import com.handmade.atelie.backend.exceptions.UserNotFoundByIDException;
 
 
 @ControllerAdvice
@@ -80,6 +82,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(InvalidAgeException.class)
     private ResponseEntity<RestErrorMessage> invalidAgeHandler(InvalidAgeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundByIDException.class)
+    private ResponseEntity<RestErrorMessage> userNotFoundByIDHandler(UserNotFoundByIDException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestErrorMessage(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    private ResponseEntity<RestErrorMessage> invalidPasswordHandler(InvalidPasswordException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 

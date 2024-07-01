@@ -31,6 +31,7 @@ public class SecurityConfigurations {
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/registerCustomerUser").permitAll()
                     .requestMatchers(HttpMethod.POST, "/user/registerAdminUser").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/user/updateUser/{id}").permitAll()
                     .anyRequest().authenticated()
 
                 )
