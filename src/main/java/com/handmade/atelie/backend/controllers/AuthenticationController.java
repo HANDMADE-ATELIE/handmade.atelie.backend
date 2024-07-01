@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.handmade.atelie.backend.exceptions.InvalidCredentialsException;
+import com.handmade.atelie.backend.exceptions.UserNotFoundByEmailException;
 import com.handmade.atelie.backend.infra.security.TokenService;
 import com.handmade.atelie.backend.models.auth.AuthenticationDTO;
 import com.handmade.atelie.backend.models.auth.LoginResponseDTO;
 import com.handmade.atelie.backend.models.user.User;
+import com.handmade.atelie.backend.models.user.UserLoginResponseDTO;
+import com.handmade.atelie.backend.repositories.UserRepository;
 
 @RestController
 @RequestMapping("auth")
@@ -28,6 +31,9 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Validated @RequestBody AuthenticationDTO data) {
         try {
@@ -37,7 +43,17 @@ public class AuthenticationController {
 
             var token = tokenService.generateToken((User) auth.getPrincipal());
 
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+            UserLoginResponseDTO response = null;
+
+            try {
+                User user = this.userRepository.findUserByEmail(data.email());
+                response = new UserLoginResponseDTO(user.getId(), user.getName(), user.getDateOfBirth(), user.getCpf() , user.getEmail());
+
+            } catch (UserNotFoundByEmailException e) {
+                throw new UserNotFoundByEmailException(data.email());
+            }
+            
+            return ResponseEntity.ok(new LoginResponseDTO(token, response));
 
         } catch (Exception e) {
             throw new InvalidCredentialsException();

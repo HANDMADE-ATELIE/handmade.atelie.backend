@@ -19,6 +19,7 @@ import com.handmade.atelie.backend.exceptions.InvalidRoleException;
 import com.handmade.atelie.backend.exceptions.InvalidStateException;
 import com.handmade.atelie.backend.exceptions.InvalidZipCodeException;
 import com.handmade.atelie.backend.exceptions.JWTCreationErrorException;
+import com.handmade.atelie.backend.exceptions.UserNotFoundByEmailException;
 import com.handmade.atelie.backend.exceptions.UserNotFoundByIDException;
 
 
@@ -93,6 +94,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     private ResponseEntity<RestErrorMessage> invalidPasswordHandler(InvalidPasswordException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RestErrorMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundByEmailException.class)
+    private ResponseEntity<RestErrorMessage> userNotFoundByEmailHandler(UserNotFoundByEmailException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestErrorMessage(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
