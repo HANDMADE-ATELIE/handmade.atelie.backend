@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                     .requestMatchers(HttpMethod.PUT, "/user/updateUser/{id}").permitAll()
                     .requestMatchers(HttpMethod.DELETE, "/user/deleteUser/{id}").permitAll()
                     .requestMatchers(HttpMethod.GET, "/user/getUser/{id}").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/copybook/registerCopybook").permitAll()
                     .anyRequest().authenticated()
 
                 )
