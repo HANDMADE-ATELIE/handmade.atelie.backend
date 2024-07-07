@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.handmade.atelie.backend.exceptions.CPFAlreadyExistsException;
+import com.handmade.atelie.backend.exceptions.CopyBooksNotFoundException;
 import com.handmade.atelie.backend.exceptions.EmailAlreadyExistsException;
 import com.handmade.atelie.backend.exceptions.InvalidAgeException;
 import com.handmade.atelie.backend.exceptions.InvalidCpfCharException;
@@ -98,6 +99,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundByEmailException.class)
     private ResponseEntity<RestErrorMessage> userNotFoundByEmailHandler(UserNotFoundByEmailException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestErrorMessage(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    @ExceptionHandler(CopyBooksNotFoundException.class)
+    private ResponseEntity<RestErrorMessage> copyBooksNotFoundHandler(CopyBooksNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RestErrorMessage(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 
