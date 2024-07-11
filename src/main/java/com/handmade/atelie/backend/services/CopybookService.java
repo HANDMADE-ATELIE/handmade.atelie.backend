@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.handmade.atelie.backend.exceptions.CopyBooksNotFoundException;
+import com.handmade.atelie.backend.exceptions.CopybookNotFoundException;
 import com.handmade.atelie.backend.models.product.Copybook;
 import com.handmade.atelie.backend.models.product.CopybookDTO;
 import com.handmade.atelie.backend.models.product.CopybookDTOWithID;
@@ -37,26 +38,34 @@ public class CopybookService {
         return data;
     }
 
-    // public CopybookDTOWithID updateCopybook(String id, CopybookDTO data) { //todo - terminar este método, criar o getbyid, e criar o delete
+    public CopybookDTOWithID updateCopybook(String id, CopybookDTO data) { //todo - terminar este método, e criar o delete
 
-    //     Copybook copybook = this.copybookRepository.findById(data.id()).orElseThrow();
+        Copybook copybook = this.copybookRepository.findById(id).orElseThrow(() -> new CopybookNotFoundException());
 
-    //     copybook.setName(data.name());
-    //     copybook.setDescription(data.description());
-    //     copybook.setImageUrl(data.imageUrl());
-    //     copybook.setPrice(data.price());
+        copybook.setName(data.name());
+        copybook.setDescription(data.description());
+        copybook.setImageUrl(data.imageUrl());
+        copybook.setPrice(data.price());
 
-    //     List<CopybookEspecification> especifications = new ArrayList<>();
-    //     data.especifications().forEach(especification -> {
-    //         especifications.add(new CopybookEspecification(especification.title(), especification.content(), copybook));
-    //     });
+        List<CopybookEspecification> especifications = new ArrayList<>();
+        data.especifications().forEach(especification -> {
+            especifications.add(new CopybookEspecification(especification.title(), especification.content(), copybook));
+        });
 
-    //     copybook.setEspecifications(especifications);
+        copybook.getEspecifications().clear();
+        copybook.getEspecifications().addAll(especifications);
 
-    //     this.copybookRepository.save(copybook);
+        List<CopybookEspecificationDTOWithID> especificationsDTOWithId = new ArrayList<>();
+        copybook.getEspecifications().forEach(especification -> {
+            especificationsDTOWithId.add(new CopybookEspecificationDTOWithID(especification.getId(), especification.getTitle(), especification.getContent()));
+        });
 
-    //     return data;
-    // }
+        CopybookDTOWithID copybookDTOWithID = new CopybookDTOWithID(copybook.getId(), copybook.getName(), copybook.getDescription(), copybook.getImageUrl(), copybook.getPrice(), especificationsDTOWithId);
+
+        this.copybookRepository.save(copybook);
+
+        return copybookDTOWithID;
+    }
 
 
     public List<CopybookDTOWithID> getAllCopybooks() {
@@ -79,6 +88,11 @@ public class CopybookService {
         });
 
         return copybooksDTO;
+    }
+
+    public void deleteCopybookById(String id) {
+        Copybook copybook = this.copybookRepository.findById(id).orElseThrow(() -> new CopybookNotFoundException());
+        this.copybookRepository.delete(copybook);
     }
 
 
